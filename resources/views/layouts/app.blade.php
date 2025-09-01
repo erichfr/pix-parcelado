@@ -1,114 +1,89 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title') | PIX Parcelado</title>
+    <title>@yield('title') | Pix Parcelado</title>
 
-    {{-- Bootstrap 5 CDN --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    {{-- Bootstrap 5 via CDN --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    {{-- Bootstrap Icons CDN --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    {{-- Bootstrap Icons --}}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
-    {{-- Estilos Globais --}}
+    {{-- Custom styles --}}
     <style>
         body {
-            background-color: #0d0d1a;
-            color: #ffffff;
-            min-height: 100vh;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        /* Cards comuns e dashboard */
-        .card-hover {
-            border-radius: 15px;
-            background: linear-gradient(135deg, #1a1a2e, #162447);
-            box-shadow: 0 0 15px rgba(0,255,255,0.2);
-            transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
-            cursor: pointer;
-            border: none;
+            background: #0f0f1f;
             color: #fff;
         }
 
-        .card-hover:hover {
-            transform: translateY(-15px) rotateX(2deg) rotateY(2deg);
-            box-shadow: 0 15px 40px rgba(0,255,255,0.6);
-            filter: brightness(1.15);
-        }
-
-        /* Botões com efeito neon */
-        .btn-hover {
-            transition: all 0.3s;
-            box-shadow: 0 0 5px rgba(0,255,255,0.4);
-        }
-
         .btn-hover:hover {
-            filter: brightness(1.25);
-            transform: translateY(-3px);
-            box-shadow: 0 0 15px rgba(0,255,255,0.9);
-        }
-
-        /* Quick Access links */
-        .quick-link {
-            background: linear-gradient(135deg, #1a1a2e, #0f0f2a);
-            border-radius: 15px;
-            transition: transform 0.3s, box-shadow 0.3s, filter 0.3s;
-            text-decoration: none;
-        }
-
-        .quick-link:hover {
-            transform: translateY(-10px) rotateX(3deg) rotateY(3deg);
-            box-shadow: 0 15px 50px rgba(0,255,255,0.7);
             filter: brightness(1.2);
         }
 
-        .quick-link h4, .quick-link p {
-            color: #0ff;
+        .navbar-custom {
+            background: linear-gradient(135deg,#1a1a2e,#162447);
         }
 
-        .card-title i, .card-text i {
-            color: #0ff;
+        .navbar-brand {
+            font-weight: bold;
+            color: #0ff !important;
         }
 
-        .alert {
-            background-color: #22223b;
-            color: #f0f0f0;
-            border: none;
+        .nav-link {
+            color: #fff !important;
         }
 
-        a { text-decoration: none; }
-
-        .progress {
-            background-color: #111 !important;
+        .nav-link:hover {
+            color: #0ff !important;
         }
 
-        .progress-bar {
-            box-shadow: 0 0 8px rgba(0,255,255,0.7);
-            transition: width 1s ease-in-out;
+        .card-hover:hover {
+            transform: translateY(-3px);
+            transition: all 0.3s;
+            box-shadow: 0 0 15px #0ff;
         }
-        .progress-bar.bg-warning { background-color: #ffc107 !important; box-shadow: 0 0 10px #ffc107; }
-        .progress-bar.bg-success { background-color: #198754 !important; box-shadow: 0 0 10px #198754; }
-        .progress-bar.bg-danger  { background-color: #dc3545 !important; box-shadow: 0 0 10px #dc3545; }
-
     </style>
 
-
-    @yield('styles')
+    @stack('styles')
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color:#1a1a2e;">
+    {{-- Navbar --}}
+    <nav class="navbar navbar-expand-lg navbar-custom mb-4">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="{{ route('home') }}">PIX Parcelado</a>
+            <a class="navbar-brand" href="{{ route('dashboard') }}">Sistema Pix</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('dashboard') }}"><i class="bi bi-speedometer2 me-1"></i> Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('clients.index') }}"><i class="bi bi-people me-1"></i> Clientes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('clients.create') }}"><i class="bi bi-person-plus me-1"></i> Cadastrar Cliente</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('installments.index','pendente') }}"><i class="bi bi-card-checklist me-1"></i> Parcelas</a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </nav>
 
-    <div class="container py-4">
+    {{-- Conteúdo --}}
+    <div class="container">
         @yield('content')
     </div>
 
-    {{-- Bootstrap JS --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    @yield('scripts')
+    {{-- Bootstrap JS via CDN --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    @stack('scripts')
 </body>
 </html>
