@@ -14,11 +14,20 @@
                 <p class="text-white"><strong>Telefone:</strong> {{ $client->telefone ?? '-' }}</p>
                 <div class="d-flex justify-content-between mt-2">
                     <a href="{{ route('payments.create', $client->id) }}" class="btn btn-sm btn-primary btn-hover">Criar Pagamento</a>
-                    <a href="{{ route('payments.show', $client->payments->last()?->id ?? 0) }}"
-                    class="btn btn-sm btn-info btn-hover"
-                    @if($client->payments->isEmpty()) disabled @endif>
-                    Detalhes
-                    </a>
+                    @php
+                        $lastPayment = optional($client->payments)->last();
+                    @endphp
+
+                    @if($lastPayment)
+                        <a href="{{ route('payments.show', $lastPayment->id) }}"
+                        class="btn btn-sm btn-info btn-hover">
+                            Detalhes
+                        </a>
+                    @else
+                        <button class="btn btn-sm btn-secondary" disabled title="Nenhum pagamento encontrado">
+                            Sem detalhes
+                        </button>
+                    @endif
                 </div>
             </div>
         </div>

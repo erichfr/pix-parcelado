@@ -10,7 +10,8 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::all();
+        $clients = Client::with('payments')->get();
+
         return view('clients.index', compact('clients'));
     }
 
@@ -21,7 +22,6 @@ class ClientController extends Controller
 
     public function store(Request $request)
     {
-        // Validação
         $request->validate([
             'nome' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',

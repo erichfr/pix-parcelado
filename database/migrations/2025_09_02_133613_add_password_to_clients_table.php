@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('payment_installments', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::table('clients', function (Blueprint $table) {
+            $table->string('password')->nullable()->after('email');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('payment_installments');
+        Schema::table('clients', function (Blueprint $table) {
+            $table->dropColumn('password');
+        });
     }
+
 };

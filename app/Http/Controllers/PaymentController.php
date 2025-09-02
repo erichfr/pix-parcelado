@@ -25,14 +25,12 @@ class PaymentController extends Controller
             'first_due_date' => 'required|date|after_or_equal:today',
         ]);
 
-        // Cria o pagamento
         $payment = Payment::create([
             'client_id' => $request->client_id,
             'valor_total' => $request->total_amount,
             'parcelas' => $request->installments,
         ]);
 
-        // Cria as parcelas
         $amountPerInstallment = $request->total_amount / $request->installments;
         $dueDate = Carbon::parse($request->first_due_date);
 
@@ -58,7 +56,7 @@ class PaymentController extends Controller
 
     public function history(Client $client)
     {
-        $client->load('payments.installments'); // carrega pagamentos e parcelas
+        $client->load('payments.installments');
         return view('clients.history', compact('client'));
     }
 

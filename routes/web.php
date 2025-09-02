@@ -5,12 +5,19 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InstallmentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\Auth\ClientLoginController;
 use App\Models\Client;
 
 Route::get('/', function () {
     $clients = Client::all();
     return view('home', compact('clients'));
 })->name('home');
+
+
+Route::get('/login', [ClientLoginController::class, 'showLoginForm'])->name('client.login');
+Route::post('/login', [ClientLoginController::class, 'login'])->name('client.login.post');
+Route::post('/logout', [ClientLoginController::class, 'logout'])->name('client.logout');
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -29,6 +36,3 @@ Route::get('/payments/create/{client?}', [PaymentController::class, 'create'])->
 Route::post('/installments/{installment}/pay', [PaymentController::class, 'markAsPaid'])->name('installments.pay');
 Route::get('/installments/{status}', [InstallmentController::class, 'indexByStatus'])->name('installments.index');
 Route::get('/installments/{id}/qrcode', [InstallmentController::class, 'generateQrCode'])->name('installments.qrcode');
-
-
-
